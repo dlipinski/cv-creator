@@ -1,0 +1,49 @@
+.Form {
+  padding: 32px;
+  display: grid;
+  gap: 8px;
+  width: 500px;
+}
+
+.Top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+}
+
+.PhotoContainer {
+  width: 80px;
+}
+.BasicContainer {
+  display: grid;
+  gap: 16px;
+}
+.NameSurname {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.NameSurnamePosition {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.Skills {
+  display: grid;
+  gap: 8px;
+}
+.Skill {
+  display: flex;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 8px;
+}
+.UpDown {
+  display: flex;
+}
+.Headers {
+  padding-top: 8px;
+  display: flex;
+  gap: 250px;
+}

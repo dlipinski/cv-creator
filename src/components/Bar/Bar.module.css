@@ -1,0 +1,59 @@
+.Bar {
+  padding: 16px 32px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.Top {
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+  gap: 24px;
+}
+.Image {
+  width: 128px;
+  border-radius: 8px;
+}
+
+.NameSurname {
+  color: #222;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.Position {
+  color: #222;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.ContactWrapper {
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.DataRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ContactData {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.DataTitle {
+  font-weight: 700;
+}
+
+.DataRow svg path {
+  fill: #222 !important;
+}

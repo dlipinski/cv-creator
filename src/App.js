@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { Card, Pane, SegmentedControl } from 'evergreen-ui';
+import classes from './App.module.css';
+import Form from './components/Form/Form';
+import Header from './components/Header/Header';
+import Page from './components/Page/Page';
+
 
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Pane width='100vw' height='100vh' display='grid' gridTemplateRows='auto 1fr' overflow='hidden' background='white'>
+      <Header />
+      <Pane display='grid' gridTemplateColumns='1fr auto' overflow='hidden'>
+        <div className={classes.FormContainer}>
+          <Form />
+        </div>
+        <div className={classes.PageContainer}>
+          <Page />
+        </div>
+      </Pane>
+    </Pane>
+
   );
 }
 

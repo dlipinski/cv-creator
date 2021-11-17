@@ -1,0 +1,27 @@
+.Container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  overflow: hidden;
+}
+
+.PageContainer {
+  overflow: hidden;
+  padding: 16px;
+  background: ;
+}
+
+.FormContainer {
+  overflow: scroll;
+}
+
+@media print {
+  .FormContainer {
+    display: none;
+  }
+
+  .PageContainer {
+    padding: 0;
+  }
+}

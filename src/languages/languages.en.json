@@ -1,0 +1,17 @@
+{
+  "summary": "Summary",
+  "languages": "Languages",
+  "skills": "Skills",
+  "experience": "Experience",
+  "education": "Education",
+  "interests": "Interests",
+  "personalData": "Personal Data",
+  "contactData": "Contact Data",
+  "name": "Name",
+  "surname": "Surname",
+  "position": "Position",
+  "details": "Details",
+  "telephone": "Phone",
+  "email": "Mail",
+  "location": "Location"
+}
