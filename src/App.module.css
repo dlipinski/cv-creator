@@ -1,19 +1,13 @@
-.Container {
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  overflow: hidden;
-}
-
 .PageContainer {
   overflow: hidden;
+  display: grid;
+  padding: 0px;
   padding: 16px;
-  background: ;
 }
 
 .FormContainer {
   overflow: scroll;
+  display: grid;
 }
 
 @media print {

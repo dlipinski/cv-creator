@@ -3,10 +3,18 @@ import { Pane, Label, TextInput } from "evergreen-ui";
 import lng from "../../../languages/languages.en.json";
 import Card from "../../../components/ui/Card";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
-import { setAddress, setEmail, setPhone } from "../formSlice";
+import {
+  selectActiveDocument,
+  setAddress,
+  setEmail,
+  setPhone,
+} from "../formSlice";
+import { RootState, store } from "../../../app/store";
 
 const ContractData = () => {
-  const { phone, email, address } = useAppSelector((state) => state.form);
+  const {
+    contact: { phone, email, address },
+  } = useAppSelector(selectActiveDocument);
   const dispatch = useAppDispatch();
 
   const onPhone = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +31,7 @@ const ContractData = () => {
 
   return (
     <Card title={lng.contactData}>
-      <Pane display="grid" gap={16}>
+      <Pane display="grid" gap={4}>
         <Pane display="grid" gridTemplateColumns="1fr 1fr" gap={16}>
           <Pane display="grid" paddingBottom={8}>
             <Label size={300}>{lng.telephone}</Label>

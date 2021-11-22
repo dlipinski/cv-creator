@@ -1,5 +1,6 @@
 .Bar {
   padding: 16px 32px;
+  padding-bottom: 0;
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
@@ -12,6 +13,8 @@
 }
 .Image {
   width: 128px;
+  height: 128px;
+
   border-radius: 8px;
 }
 

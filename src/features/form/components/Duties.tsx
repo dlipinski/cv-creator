@@ -22,6 +22,7 @@ import {
   setDutyDetails,
   setDutyName,
 } from "../formSlice";
+import DangerousButton from "../../../components/ui/DangerousButton";
 
 type DutiesProps = {
   experience: Experience;
@@ -84,20 +85,23 @@ const Duties = ({ experience, experienceIndex }: DutiesProps) => {
           level={2}
           headerButtons={[
             <IconButton
+              appearance="minimal"
               icon={ChevronUpIcon}
               disabled={i === 0}
               intent={i === 0 ? "danger" : "default"}
               onClick={() => onMoveUpClicked(i)}
             />,
             <IconButton
+              appearance="minimal"
               icon={ChevronDownIcon}
               disabled={i === experience.duties.length - 1}
               intent={i === experience.duties.length - 1 ? "danger" : "default"}
               onClick={() => onMoveDownClicked(i)}
             />,
-            <IconButton
+            <DangerousButton
+              appearance="minimal"
               icon={RemoveIcon}
-              intent="danger"
+              type="justIcon"
               disabled={
                 experience.duties.length === 1 &&
                 experience.duties[0].name === "" &&

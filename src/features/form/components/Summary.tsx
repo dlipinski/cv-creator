@@ -5,10 +5,11 @@ import Card from "../../../components/ui/Card";
 
 import lng from "../../../languages/languages.en.json";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
-import { setSummary } from "../formSlice";
+import { selectActiveDocument, setSummary } from "../formSlice";
+import { store } from "../../../app/store";
 
 const Summary = ({}) => {
-  const { summary } = useAppSelector((state) => state.form);
+  const { summary } = useAppSelector(selectActiveDocument);
   const dispatch = useAppDispatch();
 
   const onSummaryChanged = (e: ChangeEvent<HTMLTextAreaElement>) => {

@@ -19,16 +19,16 @@ const Card = ({
   children,
 }: CardProps) => (
   <Pane
-    background="white"
-    elevation={level > 0 ? 1 : undefined}
-    borderRadius={4}
+    background={level === 0 ? "white" : "rgba(51, 102, 255,0.025)"}
+    border
+    borderRadius={12}
     overflow="hidden"
   >
     <Pane
-      padding={headerButtons ? 8 : 16}
+      padding={headerButtons ? 4 : 16}
       paddingLeft={16}
-      paddingRight={16}
-      paddingBottom={8}
+      paddingRight={4}
+      borderBottom
       display="flex"
       gap={8}
       justifyContent="space-between"
@@ -40,12 +40,12 @@ const Card = ({
         overflow="hidden"
         textOverflow="ellipsis"
       >
-        {level > 0 && <DotIcon width={10} height={10} />}
         <Heading
           whiteSpace="nowrap"
           overflow="hidden"
           textOverflow="ellipsis"
-          size={level === 0 ? 900 : level === 1 ? 400 : 300}
+          size={100}
+          style={{ fontSize: 10, fontWeight: 700 }}
         >
           {title}
         </Heading>
@@ -57,9 +57,7 @@ const Card = ({
         </Pane>
       )}
     </Pane>
-    <Pane padding={16} background={level === 5 ? "gray300" : "white"}>
-      {children}
-    </Pane>
+    <Pane padding={16}>{children}</Pane>
     {footerButtons && (
       <Pane
         display="flex"

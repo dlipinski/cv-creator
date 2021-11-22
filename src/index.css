@@ -15,9 +15,46 @@ code {
     monospace;
 }
 
+.file-picker input {
+  width: auto;
+}
+
 @media print {
   body {
     width: 21cm;
     height: 30cm;
   }
+}
+
+input,
+button {
+  border-radius: 8px !important;
+}
+
+#file_picker input {
+  border-radius: 8px 0px 0px 8px !important;
+  border-right: none;
+}
+
+#file_picker button {
+  border-radius: 0px 8px 8px 0px !important;
+}
+
+.appear {
+  animation: appear 1s;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.css-5udssd.ub-bs_17sc08g.ub-bblr_4px.ub-bbrr_4px.ub-btlr_4px.ub-btrr_4px.ub-ovflw-x_hidden.ub-ovflw-y_hidden.ub-min-w_200px.ub-bg-clr_white.ub-min-h_40px.ub-box-szg_border-box {
+  border-radius: 12px !important;
+  padding: 8px !important;
 }

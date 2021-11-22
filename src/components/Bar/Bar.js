@@ -2,35 +2,56 @@ import classes from './Bar.module.css';
 import { BsFillTelephoneFill, BsTelephone } from 'react-icons/bs';
 import { GoLocation } from 'react-icons/go';
 import { AiOutlineMail } from 'react-icons/ai';
+import { Text, Pane, Heading, PhoneIcon, EnvelopeIcon, MapMarkerIcon } from 'evergreen-ui';
 
-const Bar = () => (
+const Bar = ({ activeDocument }) => (
     <div className={classes.Bar}>
         <div className={classes.Top}>
-            <img src='https://thispersondoesnotexist.com/image' className={classes.Image} alt='Person' />
-
-            <div className={classes.Person}>
-                <div className={classes.NameSurname}>Dawid Lipiński</div>
-                <div className={classes.Position}>React/Solidity/Dapp Developer</div>
-            </div>
+            <Pane
+                background="white"
+                border
+                width={100}
+                height={100}
+                borderRadius={8}
+                backgroundImage={`url(${activeDocument.personal.photo})`}
+                backgroundSize="cover" />
+            <Pane display='grid' gap={2}>
+                <Heading size={800}>
+                    {activeDocument.personal.firstName || activeDocument.personal.lastName ? activeDocument.personal.firstName + ' ' + activeDocument.personal.lastName : 'John Smith'}
+                </Heading>
+                <Heading size={200}>
+                    {activeDocument.personal.position || 'React/Redux/Solidity Developer'}
+                </Heading>
+            </Pane>
 
         </div>
 
 
         <div className={classes.ContactWrapper}>
-            <div className={classes.ContactData}>
-
-                <BsTelephone />
-                <div className={classes.DataValue}>+48 795 072 165</div>
-
-                <AiOutlineMail />
-                <div className={classes.DataValue}>dawid.lipinski3@gmail.com</div>
-                <GoLocation />
-                <div className={classes.DataValue}>Al. Grunwaldzka 609A/23, 80-337 Gdańsk, Polska</div>
-            </div>
-
+            <Pane display='grid' gap={12}>
+                <Pane display='grid' gap={8} alignItems='center' gridTemplateColumns='auto 1fr'>
+                    <PhoneIcon />
+                    <Heading size={400}>
+                        {activeDocument.contact.phone || '123 456 789'}
+                    </Heading>
+                </Pane>
+                <Pane display='grid' gap={8} alignItems='center' gridTemplateColumns='auto 1fr'>
+                    <EnvelopeIcon />
+                    <Heading size={400}>
+                        {activeDocument.contact.email || 'your.email@gmail.com'}
+                    </Heading>
+                </Pane>
+                <Pane display='grid' gap={8} alignItems='center' gridTemplateColumns='auto 1fr'>
+                    <MapMarkerIcon />
+                    <Heading size={400}>
+                        {activeDocument.contact.address || 'Kentacky Road, US'}
+                    </Heading>
+                </Pane>
+            </Pane>
         </div>
 
-    </div>
+    </div >
+
 )
 
 export default Bar;

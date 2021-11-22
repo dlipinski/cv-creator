@@ -18,10 +18,6 @@
     {
       "name": "Ruby on Rails",
       "details": "Postgres/Devise/APIs"
-    },
-    {
-      "name": "Node",
-      "details": "APIs/Web Scrapers/Stuff"
     }
   ],
   "languages": [
@@ -96,5 +92,5 @@
       "details": "Uniwersytet Gdański (UG)"
     }
   ],
-  "hobbys": "Spontaneous travels, podcasts and crime series, postmodern cinema, Binance Smart Chain."
+  "intrests": "Spontaneous travels, podcasts and crime series, postmodern cinema, Binance Smart Chain."
 }

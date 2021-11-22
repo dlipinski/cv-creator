@@ -1,89 +1,122 @@
 import classes from './Experience.module.css';
 import data from '../../languages/data.en.json';
 import lng from '../../languages/languages.en.json';
+import { Heading, Link, Pane, Text } from 'evergreen-ui';
 
 const Experience = () => (
     <div className={classes.Experience}>
-        <div className={classes.Title}>{lng.summary}</div>
-        <div className={classes.Summary}>
+
+        <Pane borderBottom marginBottom={8} paddingBottom={8}>
+            <Heading size={500}>{lng.summary}</Heading>
+        </Pane>
+        <Heading size={400} >
             {data.summary}
-        </div>
-        <div className={classes.Row}>
-            <div>
-                <div className={classes.Title}>{lng.skills}</div>
-                <div className={classes.Skills}>
-                    {
-                        data.skills.map(skill => (
-                            <div className={classes.Skill}>
-                                <div className={classes.SkillName}>{skill.name}</div>
-                                <div className={classes.SubSkills}>{skill.details}</div>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
-            <div>
-                <div className={classes.Title}>{lng.languages}</div>
-                <div className={classes.Languages}>
-                    {
-                        data.languages.map(language => (
-                            <div className={classes.Language}>
-                                <div className={classes.LanguageName}>{language.name}</div>
-                                <div className={classes.LanguageStatus}>{language.level}</div>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
+        </Heading>
 
 
-        </div>
-        <div className={classes.Title}>{lng.experience}</div>
-        <div className={classes.List}>
+
+        <Pane borderBottom marginBottom={8} paddingBottom={8} marginTop={16}>
+            <Heading size={500}>{lng.skills}</Heading>
+        </Pane>
+        <Pane display='grid' gridTemplateColumns='1fr 1fr 1fr' gap={8}>
+            {
+                data.skills.map(skill => (
+                    <Pane display='grid'>
+                        <Heading size={400}>{skill.name}</Heading>
+                        <Heading size={200} >{skill.details}</Heading>
+                    </Pane>
+                ))
+            }
+        </Pane>
+
+        <Pane borderBottom marginBottom={8} paddingBottom={8} marginTop={16}>
+            <Heading size={500}>{lng.experience}</Heading>
+        </Pane>
+
+        <Pane display='grid'>
             {
                 data.experience.map(exp => (
-                    <div className={classes.ListItem}>
-                        <div className={classes.Time}>{exp.from} - {exp.to}</div>
-                        <div className={classes.Right}>
-                            <div className={classes.PositionTitle}>{exp.position}</div>
-                            <div className={classes.CompanyTitle}>{exp.company}</div>
-                            <ul className={classes.Duties}>
+                    <Pane display='grid' gridTemplateColumns='80px 1fr'>
+                        <Heading size={400}>{exp.from} - {exp.to}</Heading>
+                        <Pane paddingLeft={8} marginLeft={8}>
+                            <Heading size={400}>{exp.position}</Heading>
+                            <Heading size={200}>{exp.company}</Heading>
+                            <Pane display='grid' marginTop={8} marginBottom={8} gap={8}>
                                 {
                                     exp.duties.map(duty => (
-                                        <li>
-                                            {duty.name}
-                                            <div className={classes.Techs}>{duty.technologies}</div>
-                                        </li>
+                                        <Pane display='grid' borderLeft paddingLeft={16} >
+                                            <Heading size={400}>{duty.name}</Heading>
+                                            <Heading size={200}>{duty.technologies}</Heading>
+                                        </Pane>
                                     ))
                                 }
-                            </ul>
-                        </div>
-                    </div>
+                            </Pane>
+                        </Pane>
+                    </Pane>
                 ))
             }
-        </div>
-        <div className={classes.Title}>{lng.education}</div>
-        <div className={classes.List}>
+        </Pane>
+
+        <Pane borderBottom marginBottom={8} paddingBottom={8} marginTop={16}>
+            <Heading size={500}>{lng.education}</Heading>
+        </Pane>
+
+        <Pane display='grid'>
             {
-                data.education.map(edu => (
-                    <div className={classes.ListItem}>
-                        <div className={classes.Time}>{edu.from}-{edu.to}</div>
-                        <div className={classes.Right}>
-                            <div className={classes.PositionTitle}>{edu.field}</div>
-                            <div className={classes.CompanyTitle}>{edu.school}</div>
-                        </div>
-                    </div>
+                data.education.map(exp => (
+                    <Pane display='grid' gridTemplateColumns='80px 1fr'>
+                        <Heading size={400}>{exp.from} - {exp.to}</Heading>
+                        <Pane paddingLeft={8} marginLeft={8}>
+                            <Heading size={400}>{exp.field}</Heading>
+                            <Heading size={200}>{exp.school}</Heading>
+                        </Pane>
+                    </Pane>
                 ))
             }
+        </Pane>
 
-        </div>
+        <Pane display='grid' gridTemplateColumns='3fr 1fr' gap={16} marginTop={16}>
+            <Pane>
+                <Pane borderBottom marginBottom={8} paddingBottom={8}>
+                    <Heading size={500}>Projects</Heading>
+                </Pane>
+                <Pane display='grid' gridTemplateColumns='1fr 1fr' gap={16}>
+                    <Pane display='grid'>
+                        <Heading size={400}>Toqen</Heading>
+                        <Heading size={200}>React/Web3</Heading>
+                        <Heading size={300}>Multi-tool designed for ethereum blockchain.</Heading>
+                        <Heading size={200}>tools.toqen.app</Heading>
+                    </Pane>
+                    <Pane display='grid'>
+                        <Heading size={400}>CV-Generator</Heading>
+                        <Heading size={200}>React/Redux-Toolkit/Firebase</Heading>
+                        <Heading size={300}>Clean code and this cv whas created in this.</Heading>
+                        <Heading size={200}>tools.toqen.app</Heading>
 
-        <div>
-            <div className={classes.Title}>{lng.interests}</div>
-            <div className={classes.Hobbys}>
-                {data.hobbys}
-            </div>
-        </div>
+                    </Pane>
+                </Pane>
+
+            </Pane>
+            <Pane>
+                <Pane borderBottom marginBottom={8} paddingBottom={8}>
+                    <Heading size={500}>{lng.languages}</Heading>
+                </Pane>
+                <Pane display='grid' gridTemplateColumns='1fr 1fr' gap={8}>
+                    {
+                        data.languages.map(language => (
+                            <Pane display='grid'>
+                                <Heading size={400}>{language.name}</Heading>
+                                <Heading size={200} >{language.level}</Heading>
+                            </Pane>
+                        ))
+                    }
+                </Pane>
+
+            </Pane>
+        </Pane>
+
+
+
     </div >
 )
 

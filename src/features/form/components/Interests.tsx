@@ -5,10 +5,11 @@ import Card from "../../../components/ui/Card";
 
 import lng from "../../../languages/languages.en.json";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
-import { setInterests, setSummary } from "../formSlice";
+import { selectActiveDocument, setInterests, setSummary } from "../formSlice";
 
 const Interests = ({}) => {
-  const { interests } = useAppSelector((state) => state.form);
+  const { interests } = useAppSelector(selectActiveDocument);
+
   const dispatch = useAppDispatch();
 
   const onInterestsChanged = (e: ChangeEvent<HTMLInputElement>) => {

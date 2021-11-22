@@ -3,7 +3,7 @@ import { ChangeEvent } from "react";
 import {
   Pane,
   IconButton,
-  AddIcon,
+  PlusIcon,
   Button,
   ChevronDownIcon,
   RemoveIcon,
@@ -20,12 +20,15 @@ import {
   moveSkillDown,
   moveSkillUp,
   removeSkill,
+  selectActiveDocument,
   setSkillDetails,
   setSkillName,
 } from "../formSlice";
+import { store } from "../../../app/store";
+import DangerousButton from "../../../components/ui/DangerousButton";
 
 const Skills = () => {
-  const { skills } = useAppSelector((state) => state.form);
+  const { skills } = useAppSelector(selectActiveDocument);
   const dispatch = useAppDispatch();
 
   const onAddNewSkillClick = () => {
@@ -61,7 +64,11 @@ const Skills = () => {
     <Card
       title={lng.skills}
       headerButtons={[
-        <Button iconBefore={AddIcon} onClick={onAddNewSkillClick}>
+        <Button
+          appearance="minimal"
+          iconBefore={PlusIcon}
+          onClick={onAddNewSkillClick}
+        >
           New Skill
         </Button>,
       ]}
@@ -90,20 +97,23 @@ const Skills = () => {
               }
             />
             <IconButton
+              appearance="minimal"
               icon={ChevronUpIcon}
               disabled={i === 0}
               intent={i === 0 ? "danger" : "default"}
               onClick={() => onMoveUpClick(i)}
             />
             <IconButton
+              appearance="minimal"
               icon={ChevronDownIcon}
               disabled={i === skills.length - 1}
               intent={i === skills.length - 1 ? "danger" : "default"}
               onClick={() => onMoveDownClick(i)}
             />
-            <IconButton
+            <DangerousButton
+              appearance="minimal"
               icon={RemoveIcon}
-              intent="danger"
+              type="justIcon"
               disabled={
                 skills.length === 1 &&
                 skills[0].name === "" &&

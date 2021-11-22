@@ -3,7 +3,7 @@ import { ChangeEvent } from "react";
 import {
   Pane,
   Button,
-  AddIcon,
+  PlusIcon,
   TextInput,
   IconButton,
   RemoveIcon,
@@ -19,12 +19,16 @@ import {
   moveLanguageDown,
   moveLanguageUp,
   removeLanguage,
+  selectActiveDocument,
   setLanguageDetails,
   setLanguageName,
 } from "../formSlice";
+import { store } from "../../../app/store";
+import DangerousButton from "../../../components/ui/DangerousButton";
 
 const Languages = ({}) => {
-  const { languages } = useAppSelector((state) => state.form);
+  const { languages } = useAppSelector(selectActiveDocument);
+
   const dispatch = useAppDispatch();
 
   const onNewLanguageClicked = () => {
@@ -62,7 +66,11 @@ const Languages = ({}) => {
     <Card
       title={lng.languages}
       headerButtons={[
-        <Button iconBefore={AddIcon} onClick={onNewLanguageClicked}>
+        <Button
+          appearance="minimal"
+          iconBefore={PlusIcon}
+          onClick={onNewLanguageClicked}
+        >
           New Language
         </Button>,
       ]}
@@ -92,18 +100,21 @@ const Languages = ({}) => {
             />
             <IconButton
               icon={ChevronUpIcon}
+              appearance="minimal"
               disabled={i === 0}
               intent={i === 0 ? "danger" : "default"}
               onClick={() => onMoveUpClicked(i)}
             />
             <IconButton
               icon={ChevronDownIcon}
+              appearance="minimal"
               disabled={i === languages.length - 1}
               intent={i === languages.length - 1 ? "danger" : "default"}
               onClick={() => onMoveDownClicked(i)}
             />
-            <IconButton
-              intent="danger"
+            <DangerousButton
+              appearance="minimal"
+              type="justIcon"
               icon={RemoveIcon}
               disabled={
                 languages.length === 1 &&

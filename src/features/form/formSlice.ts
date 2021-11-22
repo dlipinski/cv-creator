@@ -1,10 +1,17 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState, store } from "../../app/store";
+import firebase from "firebase";
+
+export interface Meta {
+  name: string;
+  language: "en_EN" | "pl_PL";
+}
 
 export interface Personal {
   firstName: string;
   lastName: string;
   position: string;
+  photo: string;
 }
 
 export interface Contact {
@@ -43,7 +50,8 @@ export interface Education {
   details: string;
 }
 
-export interface CV {
+export interface Document {
+  meta: Meta;
   personal: Personal;
   contact: Contact;
   summary: string;
@@ -54,106 +62,274 @@ export interface CV {
   interests: string;
 }
 
-const localInitialState =
-  localStorage.getItem("form") !== null
-    ? JSON.parse(localStorage.getItem("form") || "{}")
-    : undefined;
+export interface Documents {
+  saving?: boolean;
+  active: number;
+  array: Document[];
+}
 
-export const initialState: CV = localInitialState || {
-  personal: {
-    firstName: "",
-    lastName: "",
-    position: "",
-  },
-  contact: {
-    phone: "",
-    email: "",
-    address: "",
-  },
-  summary: "",
-  skills: [
+export const initialState: Documents = {
+  active: 0,
+  array: [
     {
-      name: "",
-      details: "",
-    },
-  ],
-  languages: [
-    {
-      name: "",
-      details: "",
-    },
-  ],
-  experience: [
-    {
-      from: "",
-      to: "",
-      name: "",
-      details: "",
-      duties: [
+      meta: {
+        name: "Document 1",
+        language: "en_EN",
+      },
+      personal: {
+        firstName: "",
+        lastName: "",
+        position: "",
+        photo: "",
+      },
+      contact: {
+        phone: "",
+        email: "",
+        address: "",
+      },
+      summary: "",
+      skills: [
         {
           name: "",
           details: "",
         },
       ],
+      languages: [
+        {
+          name: "",
+          details: "",
+        },
+      ],
+      experience: [
+        {
+          from: "",
+          to: "",
+          name: "",
+          details: "",
+          duties: [
+            {
+              name: "",
+              details: "",
+            },
+          ],
+        },
+      ],
+      education: [
+        {
+          from: "",
+          to: "",
+          name: "",
+          details: "",
+        },
+      ],
+      interests: "",
     },
   ],
-  education: [
-    {
-      from: "",
-      to: "",
-      name: "",
-      details: "",
-    },
-  ],
-  hobbys: "",
 };
 
-export const formSlice = createSlice({
-  name: "form",
+interface PayLoad {
+  displayName?: string | null;
+  email?: string | null;
+}
+export const fetchDocuments = createAsyncThunk<Documents, PayLoad>(
+  "fetchDocuments",
+  async (_, thunkAPI: any) => {
+    try {
+      const currentUser: any = firebase.auth().currentUser;
+      const userRef = firebase.database().ref(`/users/${currentUser.uid}`);
+      const snapshot = await userRef.once("value");
+      return snapshot.val();
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
+
+export const saveDocuments = createAsyncThunk<Documents, Documents>(
+  "saveDocuments",
+  async (documents, thunkAPI: any) => {
+    console.log("saving");
+    try {
+      const currentUser: any = firebase.auth().currentUser;
+      const userRef = firebase.database().ref(`/users/${currentUser.uid}`);
+      await userRef.set(documents);
+      console.log("Saved");
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
+
+export const documentSlice = createSlice({
+  name: "documents",
   initialState,
   reducers: {
+    addNewDocument: (state) => {
+      state.array.push({
+        meta: {
+          name: "Document",
+          language: "en_EN",
+        },
+        personal: {
+          firstName: "",
+          lastName: "",
+          position: "",
+          photo: "",
+        },
+        contact: {
+          phone: "",
+          email: "",
+          address: "",
+        },
+        summary: "",
+        skills: [
+          {
+            name: "",
+            details: "",
+          },
+        ],
+        languages: [
+          {
+            name: "",
+            details: "",
+          },
+        ],
+        experience: [
+          {
+            from: "",
+            to: "",
+            name: "",
+            details: "",
+            duties: [
+              {
+                name: "",
+                details: "",
+              },
+            ],
+          },
+        ],
+        education: [
+          {
+            from: "",
+            to: "",
+            name: "",
+            details: "",
+          },
+        ],
+        interests: "",
+      });
+      state.active = state.array.length - 1;
+    },
+    removeDocument: (state) => {
+      const documentIndex = state.active;
+      state.array = state.array.filter((_, i) => i !== documentIndex);
+      if (state.array.length === 0) {
+        state.array.push({
+          meta: {
+            name: "Document",
+            language: "en_EN",
+          },
+          personal: {
+            firstName: "",
+            lastName: "",
+            position: "",
+            photo: "",
+          },
+          contact: {
+            phone: "",
+            email: "",
+            address: "",
+          },
+          summary: "",
+          skills: [
+            {
+              name: "",
+              details: "",
+            },
+          ],
+          languages: [
+            {
+              name: "",
+              details: "",
+            },
+          ],
+          experience: [
+            {
+              from: "",
+              to: "",
+              name: "",
+              details: "",
+              duties: [
+                {
+                  name: "",
+                  details: "",
+                },
+              ],
+            },
+          ],
+          education: [
+            {
+              from: "",
+              to: "",
+              name: "",
+              details: "",
+            },
+          ],
+          interests: "",
+        });
+      }
+    },
+    setActive: (state, action: PayloadAction<number>) => {
+      state.active = action.payload;
+    },
     updatePersonal: (state, action: PayloadAction<Personal>) => {
-      state.personal = action.payload;
+      state.array[state.active].personal = action.payload;
     },
     updateContact: (state, action: PayloadAction<Contact>) => {
-      state.contact = action.payload;
+      state.array[state.active].contact = action.payload;
     },
     updateSummary: (state, action: PayloadAction<string>) => {
-        state.summary = action.payload;
-    }
+      state.array[state.active].summary = action.payload;
+    },
     setFirstName: (state, action: PayloadAction<string>) => {
-      state.firstName = action.payload;
+      console.log(state.array, state.active);
+      state.array[state.active].personal.firstName = action.payload;
     },
     setLastName: (state, action: PayloadAction<string>) => {
-      state.lastName = action.payload;
+      state.array[state.active].personal.lastName = action.payload;
     },
     setPosition: (state, action: PayloadAction<string>) => {
-      state.position = action.payload;
+      state.array[state.active].personal.position = action.payload;
+    },
+    setPhoto: (state, action: PayloadAction<string>) => {
+      state.array[state.active].personal.photo = action.payload;
     },
     setPhone: (state, action: PayloadAction<string>) => {
-      state.phone = action.payload;
+      state.array[state.active].contact.phone = action.payload;
     },
     setEmail: (state, action: PayloadAction<string>) => {
-      state.email = action.payload;
+      state.array[state.active].contact.email = action.payload;
     },
     setAddress: (state, action: PayloadAction<string>) => {
-      state.address = action.payload;
+      state.array[state.active].contact.address = action.payload;
     },
     setSummary: (state, action: PayloadAction<string>) => {
-      state.summary = action.payload;
+      state.array[state.active].summary = action.payload;
     },
     addNewSkill: (state) => {
       const newSkill = {
         name: "",
         details: "",
       };
-      state.skills.push(newSkill);
+      state.array[state.active].skills.push(newSkill);
     },
     removeSkill: (state, action: PayloadAction<number>) => {
       const skillIndex = action.payload;
-      state.skills = state.skills.filter((_, i) => i !== skillIndex);
-      if (state.skills.length === 0) {
-        state.skills.push({
+      state.array[state.active].skills = state.array[
+        state.active
+      ].skills.filter((_, i) => i !== skillIndex);
+      if (state.array[state.active].skills.length === 0) {
+        state.array[state.active].skills.push({
           name: "",
           details: "",
         });
@@ -162,9 +338,10 @@ export const formSlice = createSlice({
     moveSkillUp: (state, action: PayloadAction<number>) => {
       try {
         const skillIndex = action.payload;
-        const tempSkill = state.skills[skillIndex - 1];
-        state.skills[skillIndex - 1] = state.skills[skillIndex];
-        state.skills[skillIndex] = tempSkill;
+        const tempSkill = state.array[state.active].skills[skillIndex - 1];
+        state.array[state.active].skills[skillIndex - 1] =
+          state.array[state.active].skills[skillIndex];
+        state.array[state.active].skills[skillIndex] = tempSkill;
       } catch (e) {
         console.log(e);
       }
@@ -172,9 +349,10 @@ export const formSlice = createSlice({
     moveSkillDown: (state, action: PayloadAction<number>) => {
       try {
         const skillIndex = action.payload;
-        const tempSkill = state.skills[skillIndex + 1];
-        state.skills[skillIndex + 1] = state.skills[skillIndex];
-        state.skills[skillIndex] = tempSkill;
+        const tempSkill = state.array[state.active].skills[skillIndex + 1];
+        state.array[state.active].skills[skillIndex + 1] =
+          state.array[state.active].skills[skillIndex];
+        state.array[state.active].skills[skillIndex] = tempSkill;
       } catch (e) {
         console.log(e);
       }
@@ -184,27 +362,29 @@ export const formSlice = createSlice({
       action: PayloadAction<{ skillIndex: number; value: string }>
     ) => {
       const { skillIndex, value } = action.payload;
-      state.skills[skillIndex].name = value;
+      state.array[state.active].skills[skillIndex].name = value;
     },
     setSkillDetails: (
       state,
       action: PayloadAction<{ skillIndex: number; value: string }>
     ) => {
       const { skillIndex, value } = action.payload;
-      state.skills[skillIndex].details = value;
+      state.array[state.active].skills[skillIndex].details = value;
     },
     addNewLanguage: (state) => {
       const newLanguage = {
         name: "",
         details: "",
       };
-      state.languages.push(newLanguage);
+      state.array[state.active].languages.push(newLanguage);
     },
     removeLanguage: (state, action: PayloadAction<number>) => {
       const languageIndex = action.payload;
-      state.languages = state.languages.filter((_, i) => i !== languageIndex);
-      if (state.languages.length === 0) {
-        state.languages.push({
+      state.array[state.active].languages = state.array[
+        state.active
+      ].languages.filter((_, i) => i !== languageIndex);
+      if (state.array[state.active].languages.length === 0) {
+        state.array[state.active].languages.push({
           name: "",
           details: "",
         });
@@ -213,9 +393,11 @@ export const formSlice = createSlice({
     moveLanguageUp: (state, action: PayloadAction<number>) => {
       try {
         const languageIndex = action.payload;
-        const tempLanguage = state.languages[languageIndex - 1];
-        state.languages[languageIndex - 1] = state.languages[languageIndex];
-        state.languages[languageIndex] = tempLanguage;
+        const tempLanguage =
+          state.array[state.active].languages[languageIndex - 1];
+        state.array[state.active].languages[languageIndex - 1] =
+          state.array[state.active].languages[languageIndex];
+        state.array[state.active].languages[languageIndex] = tempLanguage;
       } catch (e) {
         console.log(e);
       }
@@ -223,9 +405,11 @@ export const formSlice = createSlice({
     moveLanguageDown: (state, action: PayloadAction<number>) => {
       try {
         const languageIndex = action.payload;
-        const tempLanguage = state.languages[languageIndex + 1];
-        state.languages[languageIndex + 1] = state.languages[languageIndex];
-        state.languages[languageIndex] = tempLanguage;
+        const tempLanguage =
+          state.array[state.active].languages[languageIndex + 1];
+        state.array[state.active].languages[languageIndex + 1] =
+          state.array[state.active].languages[languageIndex];
+        state.array[state.active].languages[languageIndex] = tempLanguage;
       } catch (e) {
         console.log(e);
       }
@@ -235,14 +419,14 @@ export const formSlice = createSlice({
       action: PayloadAction<{ languageIndex: number; value: string }>
     ) => {
       const { languageIndex, value } = action.payload;
-      state.languages[languageIndex].name = value;
+      state.array[state.active].languages[languageIndex].name = value;
     },
     setLanguageDetails: (
       state,
       action: PayloadAction<{ languageIndex: number; value: string }>
     ) => {
       const { languageIndex, value } = action.payload;
-      state.languages[languageIndex].details = value;
+      state.array[state.active].languages[languageIndex].details = value;
     },
     addNewExperience: (state) => {
       const newExperience = {
@@ -257,15 +441,15 @@ export const formSlice = createSlice({
           },
         ],
       };
-      state.experience.push(newExperience);
+      state.array[state.active].experience.push(newExperience);
     },
     removeExperience: (state, action: PayloadAction<number>) => {
       const experienceIndex = action.payload;
-      state.experience = state.experience.filter(
-        (_, i) => i !== experienceIndex
-      );
-      if (state.experience.length === 0) {
-        state.experience.push({
+      state.array[state.active].experience = state.array[
+        state.active
+      ].experience.filter((_, i) => i !== experienceIndex);
+      if (state.array[state.active].experience.length === 0) {
+        state.array[state.active].experience.push({
           from: "",
           to: "",
           name: "",
@@ -282,10 +466,11 @@ export const formSlice = createSlice({
     moveExperienceUp: (state, action: PayloadAction<number>) => {
       try {
         const experienceIndex = action.payload;
-        const tempExperience = state.experience[experienceIndex - 1];
-        state.experience[experienceIndex - 1] =
-          state.experience[experienceIndex];
-        state.experience[experienceIndex] = tempExperience;
+        const tempExperience =
+          state.array[state.active].experience[experienceIndex - 1];
+        state.array[state.active].experience[experienceIndex - 1] =
+          state.array[state.active].experience[experienceIndex];
+        state.array[state.active].experience[experienceIndex] = tempExperience;
       } catch (e) {
         console.log(e);
       }
@@ -293,10 +478,11 @@ export const formSlice = createSlice({
     moveExperienceDown: (state, action: PayloadAction<number>) => {
       try {
         const experienceIndex = action.payload;
-        const tempExperience = state.experience[experienceIndex + 1];
-        state.experience[experienceIndex + 1] =
-          state.experience[experienceIndex];
-        state.experience[experienceIndex] = tempExperience;
+        const tempExperience =
+          state.array[state.active].experience[experienceIndex + 1];
+        state.array[state.active].experience[experienceIndex + 1] =
+          state.array[state.active].experience[experienceIndex];
+        state.array[state.active].experience[experienceIndex] = tempExperience;
       } catch (e) {
         console.log(e);
       }
@@ -306,28 +492,28 @@ export const formSlice = createSlice({
       action: PayloadAction<{ experienceIndex: number; value: string }>
     ) => {
       const { experienceIndex, value } = action.payload;
-      state.experience[experienceIndex].from = value;
+      state.array[state.active].experience[experienceIndex].from = value;
     },
     setExperienceTo: (
       state,
       action: PayloadAction<{ experienceIndex: number; value: string }>
     ) => {
       const { experienceIndex, value } = action.payload;
-      state.experience[experienceIndex].to = value;
+      state.array[state.active].experience[experienceIndex].to = value;
     },
     setExperienceName: (
       state,
       action: PayloadAction<{ experienceIndex: number; value: string }>
     ) => {
       const { experienceIndex, value } = action.payload;
-      state.experience[experienceIndex].name = value;
+      state.array[state.active].experience[experienceIndex].name = value;
     },
     setExperienceDetails: (
       state,
       action: PayloadAction<{ experienceIndex: number; value: string }>
     ) => {
       const { experienceIndex, value } = action.payload;
-      state.experience[experienceIndex].details = value;
+      state.array[state.active].experience[experienceIndex].details = value;
     },
     addNewDuty: (state, action) => {
       const experienceIndex = action.payload;
@@ -335,18 +521,24 @@ export const formSlice = createSlice({
         name: "",
         details: "",
       };
-      state.experience[experienceIndex].duties.push(newDuty);
+      state.array[state.active].experience[experienceIndex].duties.push(
+        newDuty
+      );
     },
     removeDuty: (
       state,
       action: PayloadAction<{ experienceIndex: number; dutyIndex: number }>
     ) => {
       const { experienceIndex, dutyIndex } = action.payload;
-      state.experience[experienceIndex].duties = state.experience[
-        experienceIndex
-      ].duties.filter((_, i) => i !== dutyIndex);
-      if (state.experience[experienceIndex].duties.length === 0) {
-        state.experience[experienceIndex].duties.push({
+      state.array[state.active].experience[experienceIndex].duties =
+        state.array[state.active].experience[experienceIndex].duties.filter(
+          (_, i) => i !== dutyIndex
+        );
+      if (
+        state.array[state.active].experience[experienceIndex].duties.length ===
+        0
+      ) {
+        state.array[state.active].experience[experienceIndex].duties.push({
           name: "",
           details: "",
         });
@@ -359,10 +551,18 @@ export const formSlice = createSlice({
       try {
         const { experienceIndex, dutyIndex } = action.payload;
         const tempDuty =
-          state.experience[experienceIndex].duties[dutyIndex - 1];
-        state.experience[experienceIndex].duties[dutyIndex - 1] =
-          state.experience[experienceIndex].duties[dutyIndex];
-        state.experience[experienceIndex].duties[dutyIndex] = tempDuty;
+          state.array[state.active].experience[experienceIndex].duties[
+            dutyIndex - 1
+          ];
+        state.array[state.active].experience[experienceIndex].duties[
+          dutyIndex - 1
+        ] =
+          state.array[state.active].experience[experienceIndex].duties[
+            dutyIndex
+          ];
+        state.array[state.active].experience[experienceIndex].duties[
+          dutyIndex
+        ] = tempDuty;
       } catch (e) {
         console.log(e);
       }
@@ -374,10 +574,18 @@ export const formSlice = createSlice({
       try {
         const { experienceIndex, dutyIndex } = action.payload;
         const tempDuty =
-          state.experience[experienceIndex].duties[dutyIndex + 1];
-        state.experience[experienceIndex].duties[dutyIndex + 1] =
-          state.experience[experienceIndex].duties[dutyIndex];
-        state.experience[experienceIndex].duties[dutyIndex] = tempDuty;
+          state.array[state.active].experience[experienceIndex].duties[
+            dutyIndex + 1
+          ];
+        state.array[state.active].experience[experienceIndex].duties[
+          dutyIndex + 1
+        ] =
+          state.array[state.active].experience[experienceIndex].duties[
+            dutyIndex
+          ];
+        state.array[state.active].experience[experienceIndex].duties[
+          dutyIndex
+        ] = tempDuty;
       } catch (e) {
         console.log(e);
       }
@@ -391,7 +599,9 @@ export const formSlice = createSlice({
       }>
     ) => {
       const { experienceIndex, dutyIndex, value } = action.payload;
-      state.experience[experienceIndex].duties[dutyIndex].name = value;
+      state.array[state.active].experience[experienceIndex].duties[
+        dutyIndex
+      ].name = value;
     },
     setDutyDetails: (
       state,
@@ -402,7 +612,9 @@ export const formSlice = createSlice({
       }>
     ) => {
       const { experienceIndex, dutyIndex, value } = action.payload;
-      state.experience[experienceIndex].duties[dutyIndex].details = value;
+      state.array[state.active].experience[experienceIndex].duties[
+        dutyIndex
+      ].details = value;
     },
     addNewEducation: (state) => {
       const newEducation = {
@@ -411,13 +623,15 @@ export const formSlice = createSlice({
         name: "",
         details: "",
       };
-      state.education.push(newEducation);
+      state.array[state.active].education.push(newEducation);
     },
     removeEducation: (state, action: PayloadAction<number>) => {
       const educationIndex = action.payload;
-      state.education = state.education.filter((_, i) => i !== educationIndex);
-      if (state.education.length === 0) {
-        state.education.push({
+      state.array[state.active].education = state.array[
+        state.active
+      ].education.filter((_, i) => i !== educationIndex);
+      if (state.array[state.active].education.length === 0) {
+        state.array[state.active].education.push({
           from: "",
           to: "",
           name: "",
@@ -428,9 +642,11 @@ export const formSlice = createSlice({
     moveEducationUp: (state, action: PayloadAction<number>) => {
       try {
         const educationIndex = action.payload;
-        const tempEducation = state.education[educationIndex - 1];
-        state.education[educationIndex - 1] = state.education[educationIndex];
-        state.education[educationIndex] = tempEducation;
+        const tempEducation =
+          state.array[state.active].education[educationIndex - 1];
+        state.array[state.active].education[educationIndex - 1] =
+          state.array[state.active].education[educationIndex];
+        state.array[state.active].education[educationIndex] = tempEducation;
       } catch (e) {
         console.log(e);
       }
@@ -438,9 +654,11 @@ export const formSlice = createSlice({
     moveEducationDown: (state, action: PayloadAction<number>) => {
       try {
         const educationIndex = action.payload;
-        const tempEducation = state.education[educationIndex + 1];
-        state.education[educationIndex + 1] = state.education[educationIndex];
-        state.education[educationIndex] = tempEducation;
+        const tempEducation =
+          state.array[state.active].education[educationIndex + 1];
+        state.array[state.active].education[educationIndex + 1] =
+          state.array[state.active].education[educationIndex];
+        state.array[state.active].education[educationIndex] = tempEducation;
       } catch (e) {
         console.log(e);
       }
@@ -450,39 +668,61 @@ export const formSlice = createSlice({
       action: PayloadAction<{ educationIndex: number; value: string }>
     ) => {
       const { educationIndex, value } = action.payload;
-      state.education[educationIndex].from = value;
+      state.array[state.active].education[educationIndex].from = value;
     },
     setEducationTo: (
       state,
       action: PayloadAction<{ educationIndex: number; value: string }>
     ) => {
       const { educationIndex, value } = action.payload;
-      state.education[educationIndex].to = value;
+      state.array[state.active].education[educationIndex].to = value;
     },
     setEducationName: (
       state,
       action: PayloadAction<{ educationIndex: number; value: string }>
     ) => {
       const { educationIndex, value } = action.payload;
-      state.education[educationIndex].name = value;
+      state.array[state.active].education[educationIndex].name = value;
     },
     setEducationDetails: (
       state,
       action: PayloadAction<{ educationIndex: number; value: string }>
     ) => {
       const { educationIndex, value } = action.payload;
-      state.education[educationIndex].details = value;
+      state.array[state.active].education[educationIndex].details = value;
     },
     setInterests: (state, action: PayloadAction<string>) => {
-      state.interests = action.payload;
+      state.array[state.active].interests = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+      fetchDocuments.fulfilled,
+      (state, action: PayloadAction<Documents>) => {
+        state.active = action.payload.active;
+        state.array = action.payload.array;
+      }
+    );
+    builder.addCase(saveDocuments.pending, (state) => {
+      state.saving = true;
+    });
+    builder.addCase(saveDocuments.fulfilled, (state) => {
+      state.saving = false;
+    }); //saveDocuments
   },
 });
 
+export const selectActiveDocument = (state: RootState) =>
+  state.form.array[state.form.active];
+
 export const {
+  addNewDocument,
+  removeDocument,
+  setActive,
   setFirstName,
   setLastName,
   setPosition,
+  setPhoto,
   setPhone,
   setEmail,
   setAddress,
@@ -522,6 +762,6 @@ export const {
   setEducationName,
   setEducationDetails,
   setInterests,
-} = formSlice.actions;
+} = documentSlice.actions;
 
-export default formSlice.reducer;
+export default documentSlice.reducer;

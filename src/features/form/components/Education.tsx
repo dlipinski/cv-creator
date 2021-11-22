@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback } from "react";
 import {
   Pane,
   Button,
-  AddIcon,
+  PlusIcon,
   RemoveIcon,
   Label,
   TextInput,
@@ -20,14 +20,17 @@ import {
   moveEducationDown,
   moveEducationUp,
   removeEducation,
+  selectActiveDocument,
   setEducationDetails,
   setEducationFrom,
   setEducationName,
   setEducationTo,
 } from "../formSlice";
+import { store } from "../../../app/store";
+import DangerousButton from "../../../components/ui/DangerousButton";
 
 const Education = ({}) => {
-  const { education } = useAppSelector((state) => state.form);
+  const { education } = useAppSelector(selectActiveDocument);
   const dispatch = useAppDispatch();
 
   const onNewEducationClicked = () => {
@@ -80,7 +83,11 @@ const Education = ({}) => {
     <Card
       title={lng.education}
       headerButtons={[
-        <Button iconBefore={AddIcon} onClick={onNewEducationClicked}>
+        <Button
+          appearance="minimal"
+          iconBefore={PlusIcon}
+          onClick={onNewEducationClicked}
+        >
           New Education
         </Button>,
       ]}
@@ -96,20 +103,23 @@ const Education = ({}) => {
             level={1}
             headerButtons={[
               <IconButton
+                appearance="minimal"
                 icon={ChevronUpIcon}
                 disabled={i === 0}
                 intent={i === 0 ? "danger" : "default"}
                 onClick={() => onMoveUpClicked(i)}
               />,
               <IconButton
+                appearance="minimal"
                 icon={ChevronDownIcon}
                 disabled={i === education.length - 1}
                 intent={i === education.length - 1 ? "danger" : "default"}
                 onClick={() => onMoveDownClicked(i)}
               />,
-              <IconButton
+              <DangerousButton
+                appearance="minimal"
                 icon={RemoveIcon}
-                intent="danger"
+                type="justIcon"
                 disabled={
                   education.length === 1 &&
                   education[0].from === "" &&

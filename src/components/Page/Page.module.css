@@ -1,20 +1,19 @@
 .Page {
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   width: 21cm;
   height: 30cm;
   transform-origin: top left;
 
-  animation: fade-in 0.3s;
-  transform: scale(0);
-  transition: 0.3s;
-  background: white;
+  background: #fff;
 }
 
 @keyframes fade-in {
-  from {
+  0% {
     opacity: 0;
   }
-  to {
+  35% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }

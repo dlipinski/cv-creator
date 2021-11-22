@@ -4,7 +4,7 @@ import {
   Pane,
   Textarea,
   Button,
-  AddIcon,
+  PlusIcon,
   RemoveIcon,
   Label,
   TextInput,
@@ -22,15 +22,18 @@ import {
   moveExperienceDown,
   moveExperienceUp,
   removeExperience,
+  selectActiveDocument,
   setExperienceDetails,
   setExperienceFrom,
   setExperienceName,
   setExperienceTo,
 } from "../formSlice";
 import Duties from "./Duties";
+import { store } from "../../../app/store";
+import DangerousButton from "../../../components/ui/DangerousButton";
 
 const Experience = ({}) => {
-  const { experience } = useAppSelector((state) => state.form);
+  const { experience } = useAppSelector(selectActiveDocument);
   const dispatch = useAppDispatch();
 
   const onNewExperienceClicked = () => {
@@ -96,7 +99,11 @@ const Experience = ({}) => {
     <Card
       title={lng.experience}
       headerButtons={[
-        <Button iconBefore={AddIcon} onClick={onNewExperienceClicked}>
+        <Button
+          appearance="minimal"
+          iconBefore={PlusIcon}
+          onClick={onNewExperienceClicked}
+        >
           New Experience
         </Button>,
       ]}
@@ -111,24 +118,31 @@ const Experience = ({}) => {
             }
             level={1}
             headerButtons={[
-              <Button iconBefore={AddIcon} onClick={() => onNewDutyClicked(i)}>
+              <Button
+                appearance="minimal"
+                iconBefore={PlusIcon}
+                onClick={() => onNewDutyClicked(i)}
+              >
                 New Duty
               </Button>,
               <IconButton
+                appearance="minimal"
                 icon={ChevronUpIcon}
                 disabled={i === 0}
                 intent={i === 0 - 1 ? "danger" : "default"}
                 onClick={() => onMoveUpClicked(i)}
               />,
               <IconButton
+                appearance="minimal"
                 icon={ChevronDownIcon}
                 disabled={i === experience.length - 1}
                 intent={i === experience.length - 1 ? "danger" : "default"}
                 onClick={() => onMoveDownClicked(i)}
               />,
-              <IconButton
+              <DangerousButton
+                appearance="minimal"
                 icon={RemoveIcon}
-                intent="danger"
+                type="justIcon"
                 disabled={
                   experience.length === 1 &&
                   experience[0].from === "" &&
