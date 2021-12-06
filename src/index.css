@@ -8,6 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: "Lato", sans-serif;
   color: #222;
+  overflow: hidden;
 }
 
 code {
@@ -15,20 +16,11 @@ code {
     monospace;
 }
 
-.file-picker input {
-  width: auto;
-}
-
 @media print {
   body {
     width: 21cm;
     height: 30cm;
   }
-}
-
-input,
-button {
-  border-radius: 8px !important;
 }
 
 #file_picker input {
@@ -54,7 +46,6 @@ button {
   }
 }
 
-.css-5udssd.ub-bs_17sc08g.ub-bblr_4px.ub-bbrr_4px.ub-btlr_4px.ub-btrr_4px.ub-ovflw-x_hidden.ub-ovflw-y_hidden.ub-min-w_200px.ub-bg-clr_white.ub-min-h_40px.ub-box-szg_border-box {
-  border-radius: 12px !important;
-  padding: 8px !important;
+.NavigatorTab {
+  padding: 8 !important;
 }

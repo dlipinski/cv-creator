@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "name": "",
+    "language": "en"
+  },
+  "projects": [
+    {
+      "name": "",
+      "details": "",
+      "link": ""
+    }
+  ],
+  "personal": {
+    "firstName": "",
+    "lastName": "",
+    "position": "",
+    "photo": ""
+  },
+  "contact": {
+    "phone": "",
+    "email": "",
+    "address": ""
+  },
+  "summary": "",
+  "skills": [
+    {
+      "name": "",
+      "details": ""
+    }
+  ],
+  "languages": [
+    {
+      "name": "",
+      "details": ""
+    }
+  ],
+  "experience": [
+    {
+      "from": "",
+      "to": "",
+      "name": "",
+      "details": "",
+      "duties": [
+        {
+          "name": "",
+          "details": ""
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "from": "",
+      "to": "",
+      "name": "",
+      "details": ""
+    }
+  ],
+  "interests": ""
+}

@@ -1,0 +1,105 @@
+{
+  "contact": {
+    "address": "Some Location, 80-330 City, Country",
+    "email": "your.email@gmail.com",
+    "phone": "+48 222 072 165"
+  },
+  "education": [
+    {
+      "details": "University of Gdansk",
+      "from": "2016",
+      "name": " IT - Internet applications and databases",
+      "to": "2019"
+    }
+  ],
+  "experience": [
+    {
+      "details": "Zakład Automatyki i Urządzeń Pomiarowych  AREX Sp. z o.o.",
+      "duties": [
+        {
+          "details": "React /  Redux-Toolkit / ApexCharts / Leaflet / ActionCable / ReactSimpleKeyboard",
+          "name": "Design and implementation of a front-end application for handling bus chargers.It handles visualisation (charts, map), validation and editing substantial amounts of data. Custom app mode for displaying on chargers, adapted to operate in difficult lighting and weather conditions (build in screen keyboard, more accessible user interface)."
+        },
+        {
+          "details": "React / Redux-Toolkit / ActionCable / Ruby on Rails / devise /  React Native",
+          "name": "Design and implementation of the prototype of the fullstack application for handling ozonators (room disinfection device) in hotels/others, in cooperation with the hardware team. A customized API and front-end application for visualizing and controlling devices were created. A prototype of a mobile application cooperating with the device was also created."
+        },
+        {
+          "details": "React / Redux-Toolkit / Gitlab api / react-highlight",
+          "name": "Design and implementation of a front-end application for handling editing custom configuration files stored in GitLab, ensuring the correctness of the data and access to the history of editing."
+        },
+        {
+          "details": "Javascript / html / css / svg",
+          "name": "Design and implementation of a front-end application for creating end editing svg visualisations with custom elements."
+        },
+        {
+          "details": "Ruby on Rails / javascript / devise / iot",
+          "name": "Maintaining and developing in a 2-person team an  iot application that connects to thousands of devices and allows them to be controlled."
+        }
+      ],
+      "from": "2019",
+      "name": "Software Designer (Developer)",
+      "to": "2021"
+    },
+    {
+      "details": "Atena Usługi Informatyczne i Finansowe S.A.",
+      "duties": [
+        {
+          "details": "C# / VBA / T-SQL / Excel/ Jira",
+          "name": "Maintaining and developing applications and software, creating new solutions and business statements, internal work on systems."
+        }
+      ],
+      "from": "2017",
+      "name": "Junior Developer",
+      "to": "2019"
+    }
+  ],
+  "interests": "Criminal shows and thrillers, cooking and occasional spontaneous journeys.",
+  "languages": [
+    {
+      "details": "C1",
+      "name": "English"
+    },
+    {
+      "details": "Native",
+      "name": "Polish"
+    }
+  ],
+  "meta": {
+    "language": "en",
+    "name": "Dawid Lipiński EN"
+  },
+  "personal": {
+    "firstName": "Dawid",
+    "lastName": "Lipiński",
+    "photo": "https://firebasestorage.googleapis.com/v0/b/react-my-burger-69172.appspot.com/o/jlMU3vI1Q4Tzc5h7TAjGG6KtBtc2%2Fc18a8880-9927-4033-b3ea-29a24a7d8670.jpg?alt=media&token=3e3c634c-320e-4191-ae6f-d1025f4331ed",
+    "position": "React / Redux / Typescript / Web3"
+  },
+  "projects": [
+    {
+      "details": "react / Redux-Toolkit / Firebase ",
+      "link": "This CV was created in it.",
+      "name": "CV Creator (link.com)"
+    },
+    {
+      "details": "react / redux-toolkit / web3 / solidity",
+      "link": "Multi-chain multi-tool DAPP allowing to create tokens, presales and airdrops.",
+      "name": "Toqen Tools (tools.toqen.app)"
+    }
+  ],
+  "skills": [
+    {
+      "details": "CRA / Redux-Toolkit / Typescript        / Routing / Web3",
+      "name": "React"
+    },
+    {
+      "details": "Smart Contracts / Tokens",
+      "name": "Solidity"
+    },
+    {
+      "details": "Devise / Active Admin / Passenger ",
+      "name": "Ruby on Rails"
+    }
+  ],
+  "summary": "An employee with over 2 years of front end experience. Experienced in team work, solving problems on his own, involved in projects, always in good relations with colleagues and able to efficiently adapt to a new environment. \n"
+}

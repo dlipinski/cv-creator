@@ -1,0 +1,29 @@
+{
+  "en": {
+    "summary": "Summary",
+    "experience": "Experience",
+    "projects": "Projects",
+    "languages": "Languages",
+    "skills": "Skills",
+    "education": "Education",
+    "interests": "Interests"
+  },
+  "pl": {
+    "summary": "Podsumowanie",
+    "experience": "Doświadczenie",
+    "projects": "Projekty",
+    "languages": "Języki",
+    "skills": "Umiejętności",
+    "education": "Edukacja",
+    "interests": "Zainteresowania"
+  },
+  "de": {
+    "summary": "Zusammenfassung",
+    "experience": "Erfahrung",
+    "projects": "Projekte",
+    "languages": "Sprachen",
+    "skills": "Fähigkeiten",
+    "education": "Ausbildung",
+    "interests": "Interessen"
+  }
+}

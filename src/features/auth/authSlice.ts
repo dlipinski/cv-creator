@@ -14,7 +14,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  pending: undefined,
+  pending: false,
   displayName: undefined,
   email: undefined,
   authenticated: undefined,

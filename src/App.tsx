@@ -1,18 +1,21 @@
-import { Pane } from "evergreen-ui";
-import classes from "./App.module.css";
-import Form from "./features/form/Form";
-import Header from "./components/Header/Header";
-import Page from "./components/Page/Page";
+import { Button, IconButton, Pane } from "evergreen-ui";
+import Header from "./features/auth/Header";
 import firebase from "firebase";
 import { useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { isUserAuthenticatedSelector } from "./features/auth/authSelectors";
+import {
+  isUserAuthenticatedSelector,
+  pendingSelector,
+} from "./features/auth/authSelectors";
 import { login, logout } from "./features/auth/authSlice";
-import { fetchDocuments } from "./features/form/formSlice";
-import LeftPanel from "./features/form/components/LeftPanel";
+import Editor from "./features/editor/Editor";
+import SignIn from "./features/auth/SignIn";
+import githubLogo from "./assets/githubLight.png";
 
-function App() {
+const App = () => {
   const authenticated = useAppSelector(isUserAuthenticatedSelector);
+  const pending = useAppSelector(pendingSelector);
+
   const dispatch = useAppDispatch();
 
   const refresh = useCallback(
@@ -45,7 +48,6 @@ function App() {
 
   useEffect(() => {
     if (!authenticated) return;
-    dispatch(fetchDocuments({}));
   }, [dispatch, authenticated]);
 
   return (
@@ -54,26 +56,29 @@ function App() {
       height="100vh"
       display="grid"
       gridTemplateRows="auto 1fr"
-      overflow="scroll"
-      background="white"
+      background="gray200"
     >
       <Header />
-      <Pane
-        display="grid"
-        gridTemplateColumns="auto auto 1fr"
-        overflow="scroll"
-      >
-        <LeftPanel />
-
-        <Pane className={classes.FormContainer} background="gray50">
-          <Form />
-        </Pane>
-        <Pane className={classes.PageContainer} background="gray50">
-          <Page />
-        </Pane>
-      </Pane>
+      {authenticated ? <Editor /> : pending ? null : <SignIn />}
+      <a href="https://asd.pl" target="_blank" rel="noreferrer">
+        <Button
+          position="fixed"
+          left={16}
+          bottom={16}
+          zIndex={999}
+          appearance="minimal"
+          padding={6}
+          height="auto"
+        >
+          <img
+            src={githubLogo}
+            alt="Github Logo"
+            style={{ width: 24, height: 24 }}
+          />
+        </Button>
+      </a>
     </Pane>
   );
-}
+};
 
 export default App;
